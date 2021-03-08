@@ -1,14 +1,15 @@
 {
-  "name": "vpn-token",
-  "version": "1.0.0",
-  "main": "index.js",
-  "scripts": {
-    "start": "node .",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "license": "ISC",
-  "dependencies": {
-    "base32-decode": "^1.0.0",
-    "clipboardy": "^2.3.0"
-  }
+	"name": "vpn-token",
+	"version": "1.0.0",
+	"main": "index.js",
+	"scripts": {
+		"start": "node .",
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"license": "ISC",
+	"dependencies": {
+		"base32-decode": "^1.0.0",
+		"clipboardy": "^2.3.0",
+		"node-fetch": "^2.6.1"
+	}
 }

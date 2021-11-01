@@ -48,11 +48,10 @@ const fetch = require("node-fetch");
 		const hmac = createHmac("sha1", secret);
 
 		// get current time
-		const response = await fetch("http://worldclockapi.com/api/json/utc/now");
-		let time = BigInt(new Date().getTime());
+		let time = new Date();
 		try {
-			const { currentFileTime } = await response.json();
-			time = BigInt(currentFileTime) / 10000n - 11644473600000n;
+			const response = await fetch("https://www.google.com/");
+			time = new Date(response.headers.get("date"));
 		} catch (e) {
 			console.error(e);
 			setTimeout(() => {}, 5000);
@@ -60,7 +59,7 @@ const fetch = require("node-fetch");
 
 		// calculate number of 30-second intervals since 1970-01-01
 		const c = Buffer.alloc(8);
-		c.writeBigInt64BE(time / 30000n);
+		c.writeBigInt64BE(BigInt(time.getTime()) / 30000n);
 
 		// digest the payload
 		hmac.update(c);

@@ -10,6 +10,7 @@
 	"dependencies": {
 		"base32-decode": "^1.0.0",
 		"clipboardy": "^2.3.0",
-		"node-fetch": "^2.6.1"
+		"node-fetch": "^2.6.1",
+		"ntp-client": "^0.5.3"
 	}
 }

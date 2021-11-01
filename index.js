@@ -4,7 +4,7 @@ const { exit } = require("process");
 
 const clipboardy = require("clipboardy");
 const base32Decode = require("base32-decode");
-const fetch = require("node-fetch");
+const ntpClient = require("ntp-client");
 
 (async () => {
 	let errorMessage = null;
@@ -50,11 +50,22 @@ const fetch = require("node-fetch");
 		// get current time
 		let time = new Date();
 		try {
-			const response = await fetch("https://www.google.com/");
-			time = new Date(response.headers.get("date"));
-		} catch (e) {
-			console.error(e);
-			setTimeout(() => {}, 5000);
+			time = await new Promise((resolve, reject) =>
+				ntpClient.getNetworkTime("pool.ntp.org", 123, (err, date) =>
+					err ? reject(err) : resolve(date)
+				)
+			);
+			console.log("Set time via ntp.org");
+		} catch (e1) {
+			console.error("Error fetching time via ntp.org:", e1);
+			try {
+				const response = await fetch("https://www.google.com/");
+				time = new Date(response.headers.get("date"));
+				console.log("Set time via google.com");
+			} catch (e2) {
+				console.error("Error fetching time via google.com:", e2);
+				setTimeout(() => exit(1), 5000);
+			}
 		}
 
 		// calculate number of 30-second intervals since 1970-01-01
